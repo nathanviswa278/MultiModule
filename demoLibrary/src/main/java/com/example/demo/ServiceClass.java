@@ -6,7 +6,7 @@ public class ServiceClass {
 	public String messag()
 	{
 		
-		return "Hello";
+		return "Hellos";
 	}
 	
 }
