@@ -1,0 +1,12 @@
+package com.example.demo;
+
+public class ServiceClass {
+
+	
+	public void String messag()
+	{
+		
+		return "Hello";
+	}
+	
+}

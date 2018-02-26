@@ -1,0 +1,20 @@
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ApplicationEntry {
+	
+	
+	ServiceClass service=new ServiceClass();
+	
+	@RequestMapping(value="/Message",produces="application/json")
+	@ResponseBody
+	public String Message()
+	{
+		return service.messag();
+		
+	}
+
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Server port="${base.shutdown.port}" shutdown="SHUTDOWN">
+    <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener"/>
+    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+    <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener"/>
+    <Listener className="com.springsource.tcserver.serviceability.deploy.TcContainerDeployer"/>
+    <Listener accessFile="${catalina.base}/conf/jmxremote.access" address="127.0.0.1" authenticate="true" className="com.springsource.tcserver.serviceability.rmi.JmxSocketListener" passwordFile="${catalina.base}/conf/jmxremote.password" port="${base.jmx.port}" useSSL="false"/>
+    <GlobalNamingResources>
+        <Resource auth="Container" description="User database that can be updated and saved" factory="org.apache.catalina.users.MemoryUserDatabaseFactory" name="UserDatabase" pathname="conf/tomcat-users.xml" type="org.apache.catalina.UserDatabase"/>
+		<Resource auth="Container" driverClassName="com.ibm.db2.jcc.DB2Driver" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/pc_ges" password="cnty1Lih" type="javax.sql.DataSource" url="jdbc:db2://t4ugxodsq.aig.net:60570/GEXEQV3:useJDBC4ColumnNameAndLabelSemantics=2;" username="gexppgm1"/>
+					  <Resource auth="Container" driverClassName="oracle.jdbc.OracleDriver" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/pc_ds" password="PROPERTYCENTRALQA4DB" type="javax.sql.DataSource" url="jdbc:oracle:thin:@oraprclq.aig.net:1621:ORAPRCLQ" username="PROPERTYCENTRALQA"/>
+		 <Resource auth="Container" brokerName="LocalActiveMQBroker" brokerURL="tcp://USO7LHDTCP12:61616" description="JMS Connection Factory" factory="org.apache.activemq.jndi.JNDIReferenceFactory" name="jms/ConnectionFactory" type="org.apache.activemq.ActiveMQConnectionFactory" useEmbeddedBroker="false"/>
+         <Resource auth="Container" factory="org.apache.activemq.jndi.JNDIReferenceFactory" name="jms/queue/ViswaQueue" physicalName="Viswa.Jndi.Queue" type="org.apache.activemq.command.ActiveMQQueue"/>	   
+		  <Resource CHAN="SYSTEM.DEF.SVRCONN" HOST="localhost" PORT="1420" QMGR="Sample" TRAN="1" auth="Container" description="JMS Queue Connection Factory for sending messages" factory="com.ibm.mq.jms.MQQueueConnectionFactory" name="ConnectionFactory" type="com.ibm.mq.jms.MQQueueConnectionFactory"/>
+
+<Resource QU="Sample" auth="Container" description="JMS Topic for recieved messages" factory="com.ibm.mq.jms.MQQueueFactory" name="IncomingMessages" type="com.ibm.mq.jms.MQQueue"/>
+
+    </GlobalNamingResources>
+    <Service name="Catalina">
+        <Executor maxThreads="300" minSpareThreads="50" name="tomcatThreadPool" namePrefix="tomcat-http--"/>
+        <Engine defaultHost="localhost" name="Catalina">
+            <Realm className="org.apache.catalina.realm.LockOutRealm">
+                <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
+            </Realm>
+            <Host appBase="webapps" autoDeploy="true" deployOnStartup="true" deployXML="true" name="localhost" unpackWARs="true">
+                <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
+            </Host>
+        </Engine>
+        <Connector URIEncoding="UTF-8" acceptCount="100" connectionTimeout="6000000" executor="tomcatThreadPool" maxKeepAliveRequests="15" port="${bio.http.port}" protocol="org.apache.coyote.http11.Http11Protocol" redirectPort="${bio.https.port}"/>
+    </Service>
+</Server>
